@@ -1,30 +1,30 @@
 import numpy as np
 
 class Perceptron:
-    def __init__(self, x, d, b, lr):
-        self.inputs = x
+    def __init__(self, x, d, lr):
+        self.inputs = np.vstack([x, np.ones((1,x.shape[1]))])
         self.desired = d
         #self.weights = np.zeros(x.shape)
-        self.weights = np.random.random((x.shape[0], x.shape[1]))
-        self.bias = b
+        self.weights = np.random.random((self.inputs.shape[1], 1))
         self.lrate = lr
 
     def train(self, max_it):
         x = self.inputs
         w = self.weights
-        b = self.bias
         d = self.desired
         y = np.zeros(d.shape)
-        error = np.ones(x.shape)
+        error = np.ones(d.shape)
 
         for i in xrange(max_it):
-            y = np.sign(w * x + b)
+            y = np.sign(w.T * x)
             error = d - y
-            w = w + (self.lrate * error * x)
-            b = b + self.lrate * error
+            for j in xrange(x.shape[0]):
+                w = w + (self.lrate * error[j,:] * x[j,:])
             if error.sum() == 0:
                 break
-            
+        
+        self.weights = w
+
         return i, y
 
 

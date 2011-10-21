@@ -12,8 +12,8 @@ def loadData(mat_file):
 def main():
     if (len(sys.argv) > 1):
         data = loadData(sys.argv[1])
-        perc = Perceptron(data[0:2], data[2], 1, 0.1)
-        w = perc.train(10)
+        perc = Perceptron(data[0:2], data[2], 0.1)
+        w = perc.train(1000)
         #data[2]
         w1 = w[1][0] > 0
         w2 = w[1][0] < 0
@@ -23,6 +23,8 @@ def main():
         #class2[0,1] = data[w2]
         plt.scatter(class1[0], class1[1], c='r', marker='s')
         plt.scatter(class2[0], class2[1], c='b', marker='o')
+        xaxis = np.array([-1,1])
+        plt.plot(xaxis,  perc.weights.mean() * xaxis + 1)
         plt.show()
 
     else:
