@@ -13,10 +13,11 @@ def main():
     if (len(sys.argv) > 1):
         data = loadData(sys.argv[1])
         perc = Perceptron(data[0:2], data[2], 0.1)
-        w = perc.train(1000)
-        #data[2]
-        w1 = w[1][0] > 0
-        w2 = w[1][0] < 0
+        [loop, w] = perc.train(1000)
+        print(w)
+        w1 = np.sign(w) > 0
+        w2 = np.sign(w) < 0
+        print np.sign(w) - data[2]
         class1 = data[0:2, w1]
         class2 = data[0:2, w2]
 
